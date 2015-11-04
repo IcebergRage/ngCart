@@ -204,6 +204,11 @@ angular.module('ngCart', ['ngCart.directives'])
 
             return {
                 shipping: this.getShipping(),
+                shippingInformations: {
+                    firstName: this.getShippingFirstName(),
+                    lastName: this.getShippingLastName(),
+                    address: this.getShippingAddress(),
+                },
                 tax: this.getTax(),
                 taxRate: this.getTaxRate(),
                 subTotal: this.getSubTotal(),

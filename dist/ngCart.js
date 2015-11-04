@@ -223,6 +223,9 @@ angular.module('ngCart', ['ngCart.directives'])
             _self.init();
             _self.$cart.shipping = storedCart.shipping;
             _self.$cart.tax = storedCart.tax;
+            _self.$cart.shippingInformations.firstName = storedCart.shippingInformations.firstName;
+            _self.$cart.shippingInformations.lastName = storedCart.shippingInformations.lastName;
+            _self.$cart.shippingInformations.address = storedCart.shippingInformations.address;
 
             angular.forEach(storedCart.items, function (item) {
                 _self.$cart.items.push(new ngCartItem(item._id,  item._name, item._price, item._quantity, item._data));

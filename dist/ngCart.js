@@ -32,6 +32,11 @@ angular.module('ngCart', ['ngCart.directives'])
         this.init = function(){
             this.$cart = {
                 shipping : null,
+                shippingInformations : {
+                    firstName : null,
+                    lastName : null,
+                    address : null
+                },
                 taxRate : null,
                 tax : null,
                 items : []
@@ -83,11 +88,38 @@ angular.module('ngCart', ['ngCart.directives'])
         };
 
         this.getTaxRate = function(){
-            return this.$cart.taxRate
+            return this.$cart.taxRate;
         };
 
         this.getTax = function(){
             return +parseFloat(((this.getSubTotal()/100) * this.getCart().taxRate )).toFixed(2);
+        };
+
+        this.setShippingFirstName = function(firstName) {
+            this.$cart.shippingInformations.firstName = firstName;
+            return this.getShippingFirstName();
+        };
+
+        this.getShippingFirstName = function() {
+            return this.$cart.shippingInformations.firstName;
+        };
+
+        this.setShippingLastName = function(lastName) {
+            this.$cart.shippingInformations.lastName = lastName;
+            return this.getShippingLastName();
+        };
+
+        this.getShippingLastName = function() {
+            return this.$cart.shippingInformations.lastName;
+        };
+
+        this.setShippingAddress = function(address) {
+            this.$cart.shippingInformations.address = address;
+            return this.getShippingAddress();
+        };
+
+        this.getShippingAddress = function() {
+            return this.$cart.shippingInformations.address;
         };
 
         this.setCart = function (cart) {
@@ -149,16 +181,16 @@ angular.module('ngCart', ['ngCart.directives'])
         };
 
         this.empty = function () {
-            
+
             $rootScope.$broadcast('ngCart:change', {});
             this.$cart.items = [];
             localStorage.removeItem('cart');
         };
-        
+
         this.isEmpty = function () {
-            
+
             return (this.$cart.items.length > 0 ? false : true);
-            
+
         };
 
         this.toObject = function() {
@@ -177,7 +209,7 @@ angular.module('ngCart', ['ngCart.directives'])
                 subTotal: this.getSubTotal(),
                 totalCost: this.totalCost(),
                 items:items
-            }
+            };
         };
 
 
@@ -195,7 +227,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
         this.$save = function () {
             return store.set('cart', JSON.stringify(this.getCart()));
-        }
+        };
 
     }])
 
@@ -295,7 +327,7 @@ angular.module('ngCart', ['ngCart.directives'])
                 quantity: this.getQuantity(),
                 data: this.getData(),
                 total: this.getTotal()
-            }
+            };
         };
 
         return item;
@@ -325,7 +357,7 @@ angular.module('ngCart', ['ngCart.directives'])
                 }
                 return $window.localStorage [key];
             }
-        }
+        };
     }])
 
     .controller('CartController',['$scope', 'ngCart', function($scope, ngCart) {

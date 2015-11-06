@@ -31,6 +31,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
         this.init = function(){
             this.$cart = {
+                commandId : null,
                 shipping : null,
                 shippingInformations : {
                     firstName : null,
@@ -122,6 +123,15 @@ angular.module('ngCart', ['ngCart.directives'])
             return this.$cart.shippingInformations.address;
         };
 
+        this.setCommandId = function(id) {
+            this.$cart.commandId = id;
+            return this.getCommandId();
+        };
+
+        this.getCommandId = function() {
+            return this.$cart.commandId;
+        };
+
         this.setCart = function (cart) {
             this.$cart = cart;
             return this.getCart();
@@ -203,6 +213,7 @@ angular.module('ngCart', ['ngCart.directives'])
             });
 
             return {
+                commandId: this.getCommandId(),
                 shipping: this.getShipping(),
                 shippingInformations: {
                     firstName: this.getShippingFirstName(),
@@ -226,6 +237,7 @@ angular.module('ngCart', ['ngCart.directives'])
             _self.$cart.shippingInformations.firstName = storedCart.shippingInformations.firstName;
             _self.$cart.shippingInformations.lastName = storedCart.shippingInformations.lastName;
             _self.$cart.shippingInformations.address = storedCart.shippingInformations.address;
+            _self.$cart.commandId = storedCart.commandId;
 
             angular.forEach(storedCart.items, function (item) {
                 _self.$cart.items.push(new ngCartItem(item._id,  item._name, item._price, item._quantity, item._data));

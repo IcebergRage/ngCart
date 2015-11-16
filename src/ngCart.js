@@ -196,9 +196,11 @@ angular.module('ngCart', ['ngCart.directives'])
             this.$cart.items = [];
             this.commandId = null;
             this.shipping = null;
-            this.shippingInformations.firstName = null;
-            this.shippingInformations.lastName = null;
-            this.shippingInformations.address = null;
+            if (this.shippingInformations) {
+                this.shippingInformations.firstName = null;
+                this.shippingInformations.lastName = null;
+                this.shippingInformations.address = null;
+            }
             this.taxRate = null;
             this.tax = null;
             localStorage.removeItem('cart');

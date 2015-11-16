@@ -194,15 +194,13 @@ angular.module('ngCart', ['ngCart.directives'])
 
             $rootScope.$broadcast('ngCart:change', {});
             this.$cart.items = [];
-            this.commandId = null;
-            this.shipping = null;
-            if (this.shippingInformations) {
-                this.shippingInformations.firstName = null;
-                this.shippingInformations.lastName = null;
-                this.shippingInformations.address = null;
-            }
-            this.taxRate = null;
-            this.tax = null;
+            this.$cart.commandId = null;
+            this.$cart.shipping = null;
+            this.$cart.shippingInformations.firstName = null;
+            this.$cart.shippingInformations.lastName = null;
+            this.$cart.shippingInformations.address = null;
+            this.$cart.taxRate = null;
+            this.$cart.tax = null;
             localStorage.removeItem('cart');
         };
 

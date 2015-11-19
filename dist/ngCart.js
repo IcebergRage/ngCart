@@ -260,13 +260,12 @@ angular.module('ngCart', ['ngCart.directives'])
 
     .factory('ngCartItem', ['$rootScope', '$log', function ($rootScope, $log) {
 
-        var item = function (id, name, price, quantity, data, dimension) {
+        var item = function (id, name, price, quantity, data) {
             this.setId(id);
             this.setName(name);
             this.setPrice(price);
             this.setQuantity(quantity);
             this.setData(data);
-            this.setDimension(dimension);
         };
 
 
@@ -311,6 +310,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
         item.prototype.setQuantity = function(quantity, relative){
 
+
             var quantityInt = parseInt(quantity);
             if (quantityInt % 1 === 0){
                 if (relative === true){
@@ -324,6 +324,8 @@ angular.module('ngCart', ['ngCart.directives'])
                 this._quantity = 1;
                 $log.info('Quantity must be an integer and was defaulted to 1');
             }
+
+
         };
 
         item.prototype.getQuantity = function(){
@@ -339,14 +341,6 @@ angular.module('ngCart', ['ngCart.directives'])
             else $log.info('This item has no data');
         };
 
-        item.prototype.setDimension = function(dimension){
-            if (dimension) this._dimension = dimension;
-        };
-
-        item.prototype.getDimension = function(){
-            if (this._dimension) return this._dimension;
-            else $log.info('This item has no dimension');
-        };
 
         item.prototype.getTotal = function(){
             return +parseFloat(this.getQuantity() * this.getPrice()).toFixed(2);
@@ -359,7 +353,6 @@ angular.module('ngCart', ['ngCart.directives'])
                 price: this.getPrice(),
                 quantity: this.getQuantity(),
                 data: this.getData(),
-                dimension: this.getDimension(),
                 total: this.getTotal()
             };
         };
@@ -419,8 +412,7 @@ angular.module('ngCart.directives', ['ngCart.fulfilment'])
                 quantity:'@',
                 quantityMax:'@',
                 price:'@',
-                data:'=',
-                dimension:'='
+                data:'='
             },
             transclude: true,
             templateUrl: function(element, attrs) {

@@ -31,7 +31,6 @@ angular.module('ngCart', ['ngCart.directives'])
 
         this.init = function() {
             this.$cart = {
-                priceRate : null,
                 commandId : null,
                 shipping : null,
                 shippingInformations : {
@@ -72,15 +71,6 @@ angular.module('ngCart', ['ngCart.directives'])
                 }
             });
             return build;
-        };
-
-        this.setPriceRate = function(priceRate){
-            this.$cart.priceRate = priceRate;
-            return this.getPriceRate();
-        };
-
-        this.getPriceRate = function(){
-            return this.$cart.priceRate
         };
 
         this.setShipping = function(shipping){
@@ -169,10 +159,7 @@ angular.module('ngCart', ['ngCart.directives'])
         };
 
         this.getSubTotal = function(){
-            var total = 0;
-            angular.forEach(this.getCart().items, function (item) {
-                total += item.getTotal();
-            });
+            var total = (this.getTotalItems() > 5) ? 545 : 345;
             return +parseFloat(total).toFixed(2);
         };
 

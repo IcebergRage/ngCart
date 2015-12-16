@@ -38,7 +38,7 @@ angular.module('ngCart', ['ngCart.directives'])
                     lastName : null,
                     address : null
                 },
-                taxRate : null,
+                taxRate : 20,
                 tax : null,
                 items : []
             };

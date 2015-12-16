@@ -159,7 +159,9 @@ angular.module('ngCart', ['ngCart.directives'])
         };
 
         this.getSubTotal = function(){
-            var total = (this.getTotalItems() > 5) ? 545 : 345;
+            var total = 0;
+
+            if (this.getTotalItems()) total = (this.getTotalItems() > 5) ? 545 : 345;
             return +parseFloat(total).toFixed(2);
         };
 

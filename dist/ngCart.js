@@ -29,8 +29,9 @@ angular.module('ngCart', ['ngCart.directives'])
 
     .service('ngCart', ['$rootScope', 'ngCartItem', 'store', function ($rootScope, ngCartItem, store) {
 
-        this.init = function(){
+        this.init = function() {
             this.$cart = {
+                priceRate : null,
                 commandId : null,
                 shipping : null,
                 shippingInformations : {
@@ -71,6 +72,15 @@ angular.module('ngCart', ['ngCart.directives'])
                 }
             });
             return build;
+        };
+
+        this.setPriceRate = function(priceRate){
+            this.$cart.priceRate = priceRate;
+            return this.getPriceRate();
+        };
+
+        this.getPriceRate = function(){
+            return this.$cart.priceRate
         };
 
         this.setShipping = function(shipping){
@@ -195,6 +205,7 @@ angular.module('ngCart', ['ngCart.directives'])
             $rootScope.$broadcast('ngCart:change', {});
             this.$cart.items = [];
             this.$cart.commandId = null;
+            this.$cart.priceRate = null;
             this.$cart.shipping = null;
             this.$cart.shippingInformations.firstName = null;
             this.$cart.shippingInformations.lastName = null;
@@ -221,6 +232,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
             return {
                 commandId: this.getCommandId(),
+                priceRate: this.getPriceRate(),
                 shipping: this.getShipping(),
                 shippingInformations: {
                     firstName: this.getShippingFirstName(),
@@ -239,6 +251,7 @@ angular.module('ngCart', ['ngCart.directives'])
         this.$restore = function(storedCart){
             var _self = this;
             _self.init();
+            _self.$cart.priceRate = storedCart.priceRate;
             _self.$cart.shipping = storedCart.shipping;
             _self.$cart.tax = storedCart.tax;
             _self.$cart.shippingInformations.firstName = storedCart.shippingInformations.firstName;

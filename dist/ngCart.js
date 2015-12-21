@@ -47,18 +47,34 @@ angular.module('ngCart', ['ngCart.directives'])
         this.addItem = function (id, name, price, quantity, data) {
 
             var inCart = this.getItemById(id);
+            var discover = function(newItem) {
+                this.$cart.items.push(newItem);
+            };
+            var gallery = function(newItem) {
+
+            };
 
             if (typeof inCart === 'object'){
                 //Update quantity of an item if it's already in the cart
                 inCart.setQuantity(quantity, false);
                 $rootScope.$broadcast('ngCart:itemUpdated', inCart);
             } else {
-                var newItem = new ngCartItem(id, name, price, quantity, data);
-                this.$cart.items.push(newItem);
-                $rootScope.$broadcast('ngCart:itemAdded', newItem);
+                var length = this.$cart.items.length;
+                var plan = this.$cart.plan;
+
+                if ((plan === 'discover' && length < 5) ||
+                    (plan === 'gallery' && length < 10)) {
+                    var newItem = new ngCartItem(id, name, price, quantity, data);
+                    this.$cart.items.push(newItem);
+                    $rootScope.$broadcast('ngCart:itemAdded', newItem);
+                    $rootScope.$broadcast('ngCart:change', {});
+                }
+
+                if (plan === 'discover' && length > 5) {
+                    this.empty();
+                }
             }
 
-            $rootScope.$broadcast('ngCart:change', {});
         };
 
         this.getItemById = function (itemId) {
@@ -161,7 +177,8 @@ angular.module('ngCart', ['ngCart.directives'])
         this.getSubTotal = function(){
             var total = 0;
 
-            if (this.getTotalItems()) total = (this.getTotalItems() > 5) ? 550 : 300;
+            if (plan && plan === 'discover') total = 300;
+            else if (plan && plan === 'gallery') total = 550;
             return +parseFloat(total).toFixed(2);
         };
 

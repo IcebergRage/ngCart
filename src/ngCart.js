@@ -47,12 +47,6 @@ angular.module('ngCart', ['ngCart.directives'])
         this.addItem = function (id, name, price, quantity, data) {
 
             var inCart = this.getItemById(id);
-            var discover = function(newItem) {
-                this.$cart.items.push(newItem);
-            };
-            var gallery = function(newItem) {
-
-            };
 
             if (typeof inCart === 'object'){
                 //Update quantity of an item if it's already in the cart
@@ -70,11 +64,7 @@ angular.module('ngCart', ['ngCart.directives'])
                     $rootScope.$broadcast('ngCart:change', {});
                 }
 
-                if (plan === 'discover' && length > 5) {
-                    this.empty();
-                }
             }
-
         };
 
         this.getItemById = function (itemId) {
@@ -180,6 +170,11 @@ angular.module('ngCart', ['ngCart.directives'])
 
             if (plan && plan === 'discover') total = 300;
             else if (plan && plan === 'gallery') total = 550;
+
+            if (plan === 'discover' && length > 5) {
+                this.empty();
+            }
+
             return +parseFloat(total).toFixed(2);
         };
 

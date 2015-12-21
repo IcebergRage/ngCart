@@ -173,7 +173,9 @@ angular.module('ngCart', ['ngCart.directives'])
             else if (plan && plan === 'gallery') total = 550;
 
             if (plan === 'discover' && length > 5) {
-                this.empty();
+                for (var i = 0; i < length; ++i) {
+                    this.removeItem(0);
+                }
             }
 
             return +parseFloat(total).toFixed(2);

@@ -167,6 +167,7 @@ angular.module('ngCart', ['ngCart.directives'])
         this.getSubTotal = function(){
             var total = 0;
             var plan = this.getPlan();
+            var length = this.$cart.items.length;
 
             if (plan && plan === 'discover') total = 300;
             else if (plan && plan === 'gallery') total = 550;

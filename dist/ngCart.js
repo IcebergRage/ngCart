@@ -31,7 +31,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
         this.init = function() {
             this.$cart = {
-                commandId : null,
+                plan : null,
                 shipping : null,
                 shippingInformations : {
                     firstName : null,
@@ -123,13 +123,13 @@ angular.module('ngCart', ['ngCart.directives'])
             return this.$cart.shippingInformations.address;
         };
 
-        this.setCommandId = function(id) {
-            this.$cart.commandId = id;
-            return this.getCommandId();
+        this.setPlan = function(plan) {
+            this.$cart.plan = plan;
+            return this.getPlan();
         };
 
-        this.getCommandId = function() {
-            return this.$cart.commandId;
+        this.getPlan = function() {
+            return this.$cart.plan;
         };
 
         this.setCart = function (cart) {
@@ -161,7 +161,7 @@ angular.module('ngCart', ['ngCart.directives'])
         this.getSubTotal = function(){
             var total = 0;
 
-            if (this.getTotalItems()) total = (this.getTotalItems() > 5) ? 545 : 345;
+            if (this.getTotalItems()) total = (this.getTotalItems() > 5) ? 550 : 300;
             return +parseFloat(total).toFixed(2);
         };
 
@@ -193,7 +193,7 @@ angular.module('ngCart', ['ngCart.directives'])
 
             $rootScope.$broadcast('ngCart:change', {});
             this.$cart.items = [];
-            this.$cart.commandId = null;
+            this.$cart.plan = null;
             this.$cart.priceRate = null;
             this.$cart.shipping = null;
             this.$cart.shippingInformations.firstName = null;
@@ -220,7 +220,7 @@ angular.module('ngCart', ['ngCart.directives'])
             });
 
             return {
-                commandId: this.getCommandId(),
+                plan: this.getPlan(),
                 priceRate: this.getPriceRate(),
                 shipping: this.getShipping(),
                 shippingInformations: {
@@ -246,7 +246,7 @@ angular.module('ngCart', ['ngCart.directives'])
             _self.$cart.shippingInformations.firstName = storedCart.shippingInformations.firstName;
             _self.$cart.shippingInformations.lastName = storedCart.shippingInformations.lastName;
             _self.$cart.shippingInformations.address = storedCart.shippingInformations.address;
-            _self.$cart.commandId = storedCart.commandId;
+            _self.$cart.plan = storedCart.plan;
 
             angular.forEach(storedCart.items, function (item) {
                 _self.$cart.items.push(new ngCartItem(item._id,  item._name, item._price, item._quantity, item._data));
@@ -312,7 +312,6 @@ angular.module('ngCart', ['ngCart.directives'])
 
         item.prototype.setQuantity = function(quantity, relative){
 
-
             var quantityInt = parseInt(quantity);
             if (quantityInt % 1 === 0){
                 if (relative === true){
@@ -326,8 +325,6 @@ angular.module('ngCart', ['ngCart.directives'])
                 this._quantity = 1;
                 $log.info('Quantity must be an integer and was defaulted to 1');
             }
-
-
         };
 
         item.prototype.getQuantity = function(){
@@ -342,7 +339,6 @@ angular.module('ngCart', ['ngCart.directives'])
             if (this._data) return this._data;
             else $log.info('This item has no data');
         };
-
 
         item.prototype.getTotal = function(){
             return +parseFloat(this.getQuantity() * this.getPrice()).toFixed(2);
@@ -373,12 +369,10 @@ angular.module('ngCart', ['ngCart.directives'])
                     return JSON.parse(cart);
                 }
                 return false;
-
             },
 
 
             set: function (key, val) {
-
                 if (val === undefined) {
                     $window.localStorage .removeItem(key);
                 } else {
